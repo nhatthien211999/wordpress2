@@ -1,0 +1,99 @@
+/*
+* Theme Name: TestWordpress
+* Description: Test Wordpress 2020
+* Theme URI: http://test.com
+* Version: 1.0
+* Author: Nhat Thien
+* Author URI: http://test.com
+* Tags: basic, two columns, post format 
+* Textdomain: nhatthien
+* Languages Folder: /languages
+*/
+html{
+    box-sizing: border-box;
+
+}
+body{
+    font-size: 100%;
+    font-family: "helvetica Neue";
+}
+img{
+    max-width: 100%;
+    height: auto;
+}
+a{
+    color: #f6981c;
+    text-decoration: none;
+}
+a:hover, a:visited{
+    color: #ff00b3;
+
+}
+input, input[type='submit'],button{
+    border: 1px solid #c8c8c8 !important;
+    padding: 5px 10px;
+}
+h1{
+    font-size: 2.2em;
+}
+h2{
+    font-size: 2em;
+}
+h3{
+    font-size: 1.8em;
+}
+h4{
+    font-size: 1.6em;
+}
+h5{
+    font-size: 1.3em;
+}
+table, table tr, table th{
+    border: 1px solid #e7e7e7 !important;
+    padding: 8px;
+}
+
+#container{
+    width: 100%;
+    margin: 0 auto;
+    background-color: #fff;
+    display: flex;
+}
+#content{
+    overflow: hidden;
+}
+#main-content{
+    width: 75%;
+
+    margin-right: 10px;
+}
+#sidebar{
+
+    margin-left: 10px;
+    padding-left: 20px;
+}
+.logo {
+    margin:15px;
+    padding:7px;
+    margin-bottom: 32px;
+    line-height: 2em;
+    background-color: rgb(30, 179, 16);
+}
+.logo .site-name{}
+.logo .site-name h1{
+    margin: 0;
+    font-size: 0;
+    text-align: center;
+}
+.logo .site-name a{
+    color: #4681DA;
+    font-size: 32px;
+    font-weight: bold;
+}
+.logo .site-description{
+    margin-top: -1em;
+    color: #d6d6d6;
+    font-size: 1.04em;
+    font-family: serif;
+    font-style: italic;
+}
