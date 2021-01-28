@@ -8,7 +8,8 @@
 		'orderby' => 'id',
 		'order' => 'DESC');
 	$listUser = get_users($array);
-?>	
+?>
+
 <div class="sidebar-child">
 	<div class="list-user">
 

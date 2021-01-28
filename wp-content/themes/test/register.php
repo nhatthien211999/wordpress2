@@ -33,9 +33,9 @@
                 $err = 'Vui lòng không bỏ trống những thông tin bắt buộc!';
             } else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $err = 'Địa chỉ Email không hợp lệ!.';
-            } else if(checkEmail($email) ) { //???? 
+            } else if(get_user_by( 'email', encrypt_login_email($email) ) ) { //???? 
                 $err = 'Địa chỉ Email đã tồn tại!.';
-            } else if(checkName($username)){
+            } else if(get_user_by( 'login', encrypt_login_email($username) )){
                 $err = 'User name đã tồn tại!.';
             } else if($pwd1 <> $pwd2 ){
                 $err = '2 Password không giống nhau!.';
@@ -43,10 +43,10 @@
                 $user_id = wp_insert_user( 
                     array (
                         'user_pass' => apply_filters('pre_user_pass',$pwd1), 
-                        'user_login' => apply_filters('pre_user_login', md5($username)), 
+                        'user_login' => apply_filters('pre_user_login', encrypt_login_email($username)), 
                         'first_name' => apply_filters('pre_user_first_name', encrypt($first_name)),
                         'last_name' => apply_filters('pre_user_last_name', encrypt($last_name)),
-                        'user_email' => apply_filters('	pre_user_email', encrypt($email).'@gmail.com'),
+                        'user_email' => apply_filters('	pre_user_email', encrypt_login_email($email).'@gmail.com'),
                         'display_name' => apply_filters('pre_user_display_name', encrypt($display_name)),  
                         'role' => 'subscriber' ) 
                     );

@@ -6,6 +6,8 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/aes.js"></script>
+
 <style>
         body {
                 background: #2E8D41;
@@ -91,24 +93,18 @@
         }
 ?>
 <script>
-$(document).ready(function(){
-        $('#wp-submit').on( 'click',function( event ) {
-                
-                // event.preventDefault();
-                // kiểm tra event click
-                // console.log(CryptoJS.MD5($('#user_login').val()).toString());
-                var temp = CryptoJS.MD5($('#user_login').val()).toString();
-                
-                $("<input />").attr("type", "hidden")
-                .attr("name", "log")
-                .attr("value", temp)
-                .appendTo("#dangnhap");
+// $(document).ready(function(){
+//         $('#wp-submit').on( 'click',function( event ) {               
+//                 var temp = CryptoJS.MD5($('#user_login').val()).toString();               
+//                 $("<input />").attr("type", "hidden")
+//                 .attr("name", "log")
+//                 .attr("value", temp)
+//                 .appendTo("#dangnhap");
 
-                // // document.dangnhap.log.value = temp;
-                var field = document.getElementById("user_login");
-                field.id = "username";  // using element properties
-                field.setAttribute("name", "username");  // using .setAttribute() method
-        } );
-})
-
+//                 // // document.dangnhap.log.value = temp;
+//                 var field = document.getElementById("user_login");
+//                 field.id = "username";  // using element properties
+//                 field.setAttribute("name", "userName");  // using .setAttribute() method
+//         } );
+// })
 </script>

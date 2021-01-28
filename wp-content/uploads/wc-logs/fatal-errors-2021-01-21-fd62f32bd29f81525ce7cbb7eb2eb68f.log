@@ -1,0 +1,147 @@
+2021-01-21T03:49:43+00:00 CRITICAL 'break' not in the 'loop' or 'switch' context in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 624
+
+2021-01-21T03:49:56+00:00 CRITICAL syntax error, unexpected end of file in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 671
+
+2021-01-21T04:12:32+00:00 CRITICAL Cannot redeclare column_order() (previously declared in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php:606) in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 620
+
+2021-01-21T04:12:33+00:00 CRITICAL Cannot redeclare column_order() (previously declared in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php:606) in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 620
+
+2021-01-21T04:28:49+00:00 CRITICAL syntax error, unexpected '<' in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 647
+
+2021-01-21T04:49:00+00:00 CRITICAL syntax error, unexpected 'decrypt' (T_STRING) in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 713
+
+2021-01-21T04:57:29+00:00 CRITICAL syntax error, unexpected 'name' (T_STRING) in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 692
+
+2021-01-21T04:57:31+00:00 CRITICAL syntax error, unexpected 'name' (T_STRING) in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 692
+
+2021-01-21T04:57:31+00:00 CRITICAL syntax error, unexpected 'name' (T_STRING) in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 692
+
+2021-01-21T04:57:32+00:00 CRITICAL syntax error, unexpected 'name' (T_STRING) in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 692
+
+2021-01-21T06:24:31+00:00 CRITICAL Uncaught Error: Function name must be a string in C:\xampp\htdocs\wordpress2\wp-content\themes\test\list-user.php:12
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\template-loader.php(106): include()
+#1 C:\xampp\htdocs\wordpress2\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\wordpress2\index.php(17): require('C:\\xampp\\htdocs...')
+#3 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-content\themes\test\list-user.php on line 12
+
+2021-01-21T06:39:41+00:00 CRITICAL Uncaught Error: Function name must be a string in C:\xampp\htdocs\wordpress2\wp-content\themes\test\list-user.php:12
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\template-loader.php(106): include()
+#1 C:\xampp\htdocs\wordpress2\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\wordpress2\index.php(17): require('C:\\xampp\\htdocs...')
+#3 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-content\themes\test\list-user.php on line 12
+
+2021-01-21T06:50:05+00:00 CRITICAL Maximum execution time of 120 seconds exceeded in C:\xampp\htdocs\wordpress2\wp-includes\Requests\Transport\cURL.php on line 463
+
+2021-01-21T06:54:40+00:00 CRITICAL Uncaught ArgumentCountError: Too few arguments to function add_action(), 1 passed in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 671 and at least 2 expected in C:\xampp\htdocs\wordpress2\wp-includes\plugin.php:409
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php(671): add_action('woocommerce_bef...')
+#1 C:\xampp\htdocs\wordpress2\wp-settings.php(525): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\wordpress2\wp-config.php(90): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\wordpress2\wp-load.php(37): require_once('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\wordpress2\wp-blog-header.php(13): require_once('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress2\index.php(17): require('C:\\xampp\\htdocs...')
+#6 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-includes\plugin.php on line 409
+
+2021-01-21T06:54:45+00:00 CRITICAL Uncaught ArgumentCountError: Too few arguments to function add_action(), 1 passed in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 671 and at least 2 expected in C:\xampp\htdocs\wordpress2\wp-includes\plugin.php:409
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php(671): add_action('woocommerce_bef...')
+#1 C:\xampp\htdocs\wordpress2\wp-settings.php(525): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\wordpress2\wp-config.php(90): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\wordpress2\wp-load.php(37): require_once('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\wordpress2\wp-blog-header.php(13): require_once('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress2\index.php(17): require('C:\\xampp\\htdocs...')
+#6 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-includes\plugin.php on line 409
+
+2021-01-21T06:54:51+00:00 CRITICAL Uncaught ArgumentCountError: Too few arguments to function add_action(), 1 passed in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 671 and at least 2 expected in C:\xampp\htdocs\wordpress2\wp-includes\plugin.php:409
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php(671): add_action('woocommerce_bef...')
+#1 C:\xampp\htdocs\wordpress2\wp-settings.php(525): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\wordpress2\wp-config.php(90): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\wordpress2\wp-load.php(37): require_once('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\wordpress2\wp-blog-header.php(13): require_once('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress2\index.php(17): require('C:\\xampp\\htdocs...')
+#6 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-includes\plugin.php on line 409
+
+2021-01-21T06:54:56+00:00 CRITICAL Uncaught ArgumentCountError: Too few arguments to function add_action(), 1 passed in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 671 and at least 2 expected in C:\xampp\htdocs\wordpress2\wp-includes\plugin.php:409
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php(671): add_action('woocommerce_bef...')
+#1 C:\xampp\htdocs\wordpress2\wp-settings.php(525): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\wordpress2\wp-config.php(90): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\wordpress2\wp-load.php(37): require_once('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\wordpress2\wp-blog-header.php(13): require_once('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress2\index.php(17): require('C:\\xampp\\htdocs...')
+#6 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-includes\plugin.php on line 409
+
+2021-01-21T07:59:18+00:00 CRITICAL syntax error, unexpected '}' in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 674
+
+2021-01-21T08:31:20+00:00 CRITICAL syntax error, unexpected '}', expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$' in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 676
+
+2021-01-21T08:34:13+00:00 CRITICAL syntax error, unexpected '}' in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 677
+
+2021-01-21T08:34:15+00:00 CRITICAL syntax error, unexpected '}' in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 677
+
+2021-01-21T08:42:09+00:00 CRITICAL syntax error, unexpected '<' in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 673
+
+2021-01-21T09:01:57+00:00 CRITICAL Uncaught Error: Cannot use string offset as an array in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php:680
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(287): readonly_billing_account_fields('')
+#1 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(311): WP_Hook->apply_filters('', Array)
+#2 C:\xampp\htdocs\wordpress2\wp-includes\plugin.php(484): WP_Hook->do_action(Array)
+#3 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\templates\myaccount\form-edit-account.php(24): do_action('woocommerce_edi...')
+#4 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\includes\wc-core-functions.php(345): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\includes\shortcodes\class-wc-shortcode-my-account.php(160): wc_get_template('myaccount/form-...', Array)
+#6 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\includes\wc-template-functions.php(3195): WC_Shortcode_My_Account::edit_account()
+#7 C:\xampp\htdocs\wo in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 680
+
+2021-01-21T09:02:56+00:00 CRITICAL Uncaught Error: Cannot use string offset as an array in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php:680
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(287): readonly_billing_account_fields('')
+#1 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(311): WP_Hook->apply_filters('', Array)
+#2 C:\xampp\htdocs\wordpress2\wp-includes\plugin.php(484): WP_Hook->do_action(Array)
+#3 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\templates\myaccount\form-edit-account.php(24): do_action('woocommerce_edi...')
+#4 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\includes\wc-core-functions.php(345): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\includes\shortcodes\class-wc-shortcode-my-account.php(160): wc_get_template('myaccount/form-...', Array)
+#6 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\includes\wc-template-functions.php(3195): WC_Shortcode_My_Account::edit_account()
+#7 C:\xampp\htdocs\wo in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 680
+
+2021-01-21T09:03:39+00:00 CRITICAL Uncaught Error: Cannot use string offset as an array in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php:680
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(287): readonly_billing_account_fields('')
+#1 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(311): WP_Hook->apply_filters('', Array)
+#2 C:\xampp\htdocs\wordpress2\wp-includes\plugin.php(484): WP_Hook->do_action(Array)
+#3 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\templates\myaccount\form-edit-account.php(24): do_action('woocommerce_edi...')
+#4 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\includes\wc-core-functions.php(345): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\includes\shortcodes\class-wc-shortcode-my-account.php(160): wc_get_template('myaccount/form-...', Array)
+#6 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\includes\wc-template-functions.php(3195): WC_Shortcode_My_Account::edit_account()
+#7 C:\xampp\htdocs\wo in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 680
+
+2021-01-21T09:04:20+00:00 CRITICAL Uncaught Error: Cannot use string offset as an array in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php:680
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(287): readonly_billing_account_fields('')
+#1 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(311): WP_Hook->apply_filters('', Array)
+#2 C:\xampp\htdocs\wordpress2\wp-includes\plugin.php(484): WP_Hook->do_action(Array)
+#3 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\templates\myaccount\form-edit-account.php(24): do_action('woocommerce_edi...')
+#4 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\includes\wc-core-functions.php(345): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\includes\shortcodes\class-wc-shortcode-my-account.php(160): wc_get_template('myaccount/form-...', Array)
+#6 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\includes\wc-template-functions.php(3195): WC_Shortcode_My_Account::edit_account()
+#7 C:\xampp\htdocs\wo in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 680
+
+2021-01-21T09:04:34+00:00 CRITICAL Uncaught Error: Cannot use string offset as an array in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php:681
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(287): readonly_billing_account_fields('')
+#1 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(311): WP_Hook->apply_filters('', Array)
+#2 C:\xampp\htdocs\wordpress2\wp-includes\plugin.php(484): WP_Hook->do_action(Array)
+#3 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\templates\myaccount\form-edit-account.php(24): do_action('woocommerce_edi...')
+#4 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\includes\wc-core-functions.php(345): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\includes\shortcodes\class-wc-shortcode-my-account.php(160): wc_get_template('myaccount/form-...', Array)
+#6 C:\xampp\htdocs\wordpress2\wp-content\plugins\woocommerce\includes\wc-template-functions.php(3195): WC_Shortcode_My_Account::edit_account()
+#7 C:\xampp\htdocs\wo in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 681
+

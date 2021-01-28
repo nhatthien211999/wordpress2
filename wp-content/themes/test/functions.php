@@ -71,17 +71,17 @@ if(!function_exists('test_theme_setup')){
         /**
          * Tao sidebar
          */
-        $sidebar = array(
-            'name' => __('Main Sidebar', 'nhatthien'),
-            'id' => 'main-sidebar',
-            'description' => __('Default sidebar'),
-            'class' => 'main-sidebar',
-            'before_title' => '< class="widgettile">',
-            'after_title' => '</h3>'
+        // $sidebar = array(
+        //     'name' => __('Main Sidebar', 'nhatthien'),
+        //     'id' => 'main-sidebar',
+        //     'description' => __('Default sidebar'),
+        //     'class' => 'main-sidebar',
+        //     'before_title' => '< class="widgettile">',
+        //     'after_title' => '</h3>'
 
 
-        );
-        register_sidebar($sidebar);
+        // );
+        // register_sidebar($sidebar);
 
     }
     /** 
@@ -245,46 +245,10 @@ function test_style(){
 
 add_action('wp_enqueue_scripts','test_style');
 
-function encrypt_user($message){
-    //chuyển sang nhị phân -> lục phân
-    $encryption_key = '1f4276388ad3214c873428dbef42243f';
-    $key = hex2bin($encryption_key);
 
-    //mật mã IV - lấy ra độ dài của mât mã
-    $nonceSize = openssl_cipher_iv_length('AES-128-CBC');
-    //tạo chuỗi byle ngẫu nhiên vs số byte xác định bởi độ dài của mật mã
-    $nonce = openssl_random_pseudo_bytes($nonceSize);
+//---------------------------------------------------------OPEN SSL---------------------------------------------------------
 
-    $ciphertext = openssl_encrypt(
-      $message, 
-      'AES-128-CBC', 
-      $key,
-      OPENSSL_RAW_DATA, //trả dữ liệu về kiểu base64
-      $nonce
-    );
-    return base64_encode($nonce.$ciphertext);
-}
-
-function decrypt_user($message){
-    $encryption_key = '1f4276388ad3214c873428dbef42243f';
-    $key = hex2bin($encryption_key);
-    $message = base64_decode($message);
-    $nonceSize = openssl_cipher_iv_length('AES-128-CBC');
-    $nonce = mb_substr($message, 0, $nonceSize, '8bit');
-
-    $ciphertext = mb_substr($message, $nonceSize, null, '8bit');
-    
-    $plaintext= openssl_decrypt(
-        $ciphertext, 
-        'AES-128-CBC', 
-        $key,
-        OPENSSL_RAW_DATA,
-        $nonce
-    );
-    return $plaintext;
-}
 function encrypt($message){
-    
     $encryption_key ='1f4276388ad3214c873428dbef42243f' ;
     //chuyển sang nhị phân -> lục phân
     $key = hex2bin($encryption_key);
@@ -323,38 +287,34 @@ function encrypt($message){
     return $plaintext;
   }
 
-  function checkEmail($email){
-    $array = array(
-		'orderby' => 'id',
-		'order' => 'DESC'
-	);
-    $listUser = get_users($array);
-    foreach ($listUser as $key => $user){
-        if($user->id==1){
-            continue;
-        }
-        if(decrypt(cutEmail($user->user_email)) == $email){
-            return true;
-        }
-    }
-    return false;
+  function encrypt_login_email($message){
+    
+    $encryption_key ='1f4276388ad3214c873428dbef42243f' ;
+    $key = hex2bin($encryption_key);
+    $nonce = '';
+    $ciphertext = openssl_encrypt(
+      $message, 
+      'aes-256-cbc', 
+      $key,
+      OPENSSL_RAW_DATA, //trả dữ liệu về kiểu base64
+      null
+    );
+    return base64_encode($nonce.$ciphertext);
   }
 
-  function checkName($name){
-    $array = array(
-		'orderby' => 'id',
-		'order' => 'DESC'
-	);
-    $listUser = get_users($array);
-    foreach ($listUser as $key => $user){
-        if($user->id==1){
-            continue;
-        }
-        if(decrypt($user->user_name) == $name){
-            return true;
-        }
-    }
-    return false;
+  function decrypt_login_email($message){
+    $encryption_key ='1f4276388ad3214c873428dbef42243f' ;
+    $key = hex2bin($encryption_key);
+    $message = base64_decode($message);
+    $ciphertext = mb_substr($message, null, null, '8bit');
+    $plaintext= openssl_decrypt(
+      $ciphertext, 
+      'aes-256-cbc', 
+      $key,
+      OPENSSL_RAW_DATA,
+      null
+    );
+    return $plaintext;
   }
 
   function cutEmail($email){
@@ -362,110 +322,312 @@ function encrypt($message){
   }
 
 
-  function findUser($username){
-    $array = array(
-		'orderby' => 'id',
-		'order' => 'DESC'
-	);
-    $listUser = get_users($array);
-    foreach ($listUser as $key => $user){
-        if($user->id==1){
-            continue;
-        }
-        if(decrypt($user->user_name) == $username){
-            return $user;
-        }
-    }    
-    return;
 
-  }
-  function checkpass($user, $password){
-    if($user->user_pass == $password){
-        return true;
+//-----------------------------------------------------------------------------------------------------------
+//change col user table
+
+// ----------------col username---------------
+add_filter( 'manage_users_columns', function( $columns )
+{
+    return array_slice( $columns, 0, 1, true ) 
+        + [ 'mycol1' => __( 'User Name' ) ] 
+        + array_slice( $columns, 2, null, true );
+} );
+
+
+add_filter( 'manage_users_custom_column', function( $output, $column_name, $user_id )
+{
+    $u = get_userdata( $user_id ); 
+    if($u->id == 1){
+        return $u->user_login;
     }
-    return false;
-  }
-
-//-------------------------
-/* Tự động chuyển đến một trang khác sau khi login */
-function my_login_redirect( $redirect_to, $request, $user ) {
-    //is there a user to check?
-    global $user;
-    if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-            //check for admins
-            if ( in_array( 'administrator', $user->roles ) ) {
-                    // redirect them to the default place
-                    return admin_url();
-            } else {
-                    return home_url();
+    else{
+        if( 'mycol1' === $column_name )
+        {
+           
+            if( $u instanceof \WP_User )
+            {
+                // Default output
+                $output = decrypt_login_email($u->user_login);
+                unset( $u ); 
             }
-    } else {
-            return $redirect_to;
+        }
+        return $output;       
     }
-}
 
-add_filter( 'login_redirect', 'my_login_redirect', 10, 3 );
-function redirect_login_page() {
-    $login_page  = home_url( '/dang-nhap/' );
-    $page_viewed = basename($_SERVER['REQUEST_URI']);  
+
+}, 10, 3 );  
+
+// ------------col name-------------
+add_filter( 'manage_users_columns', function( $columns )
+{
+    return array_slice( $columns, 0, 2, true ) 
+        + [ 'mycol2' => __( 'Name' ) ] 
+        + array_slice( $columns, 3, null, true );
+} );
+add_filter( 'manage_users_custom_column', function( $output, $column_name, $user_id )
+{
+    if( 'mycol2' === $column_name )
+    {
+        $u = new WP_User( $user_id ); 
+        if( $u instanceof \WP_User )
+        {
+            // Default output
+            $output = decrypt($u->display_name);
+
+            unset( $u ); 
+        }
+    }       
+    return $output;
+}, 10, 3 );  
+
+add_filter( 'manage_users_sortable_columns', function( $columns )
+{
+    $columns['mycol2'] = 'name';
+    return $columns;
+} );
+
+//-----col email-----------
+add_filter( 'manage_users_columns', function( $columns )
+{
+    return array_slice( $columns, 0, 3, true ) 
+        + [ 'mycol3' => __( 'Email' ) ] 
+        + array_slice( $columns, 4, null, true );
+} );
+add_filter( 'manage_users_custom_column', function( $output, $column_name, $user_id )
+{
+    if( 'mycol3' === $column_name )
+    {
+        $u = new WP_User( $user_id ); 
+        if( $u instanceof \WP_User )
+        {
+            // Default output
+            $output = decrypt_login_email(cutEmail($u->user_email));
+
+            unset( $u ); 
+        }
+    }       
+    return $output;
+}, 10, 3 );  
+
+
+//-------add field list user-------
+    
+add_filter('manage_users_columns', 'pippin_add_user_id_column');
+function pippin_add_user_id_column($columns) {
+    $user = wp_get_current_user ();
+    $columns['user_id'] = 'User ID';
+    return $columns;
+}
  
-    if( $page_viewed == "wp-login.php" && $_SERVER['REQUEST_METHOD'] == 'GET') {
-        wp_redirect($login_page);
-        exit;
+add_action('manage_users_custom_column',  'pippin_show_user_id_column_content', 10, 3);
+function pippin_show_user_id_column_content($value, $column_name, $user_id) {
+   
+    $user = get_userdata( $user_id );
+	if ( 'user_id' == $column_name )
+		return $user_id;
+    return $value;
+}
+//--------------------------------------------------------
+
+// add library js
+function library_js() {     
+    ?>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
+    <?php
+}
+
+add_action( 'admin_head', 'library_js' );
+
+//override fields edit-profile admin
+function wpse39285_field_placement_js() {
+    global $pagenow;
+    if ( $pagenow == 'profile.php' ) {
+        $user = wp_get_current_user();
+        // var_dump(cutEmail( $user->user_email ));
+        // var_dump(decrypt_login_email('FnASTcncH9x0MVDCbU0GacwGnTaW7RXvKNcIEtb+t7xkxMxpnoc8FEmtb8CkgQCj'));
+        // // var_dump(decrypt(esc_attr( $user->first_name )));
+        // exit;
+        ?>
+        <script type="text/javascript">
+            $(document).ready(function($) {
+                // $("[name='user_login']").css("background-color","red");
+                var user_login = '<?php echo decrypt_login_email(esc_attr( $user->user_login )); ?>'
+                var user_email = '<?php echo decrypt_login_email(esc_attr( $user->user_email )); ?>'
+                console.log(user_email);
+                $("[name='user_login']").attr('value', user_login); //add or update attribute
+                $("[name='first_name']").attr('value', "<?php echo decrypt(esc_attr( $user->first_name )); ?>"); 
+                $("[name='last_name']").attr('value', "<?php echo decrypt(esc_attr( $user->last_name )); ?>"); 
+                $("[name='email']").attr('value', "<?php echo decrypt_login_email(esc_attr( cutEmail( $user->user_email ))); ?>"); 
+            });
+        </script>
+        <?php
     }
 }
-add_action('init','redirect_login_page');
+add_action( 'admin_head', 'wpse39285_field_placement_js' );
 
-/* Kiểm tra lỗi đăng nhập */
-function login_failed() {
-    $login_page  = home_url( '/dang-nhap/' );
-    wp_redirect( $login_page . '?login=failed' );
-    exit;
+
+//--------------------Updata user_name table usermeta-------------------------------
+// define the user_register callback 
+
+
+//create user
+add_filter( 'wp_pre_insert_user_data' , 'filter_user_data' , 99, 1 );
+
+function filter_user_data( $userdata ) {
+    $userdata['user_login'] = encrypt_login_email($_POST['user_login']);
+    $userdata['user_email'] = encrypt_login_email($_POST['email']).'@gmail.com';
+    $userdata['display_name'] = encrypt($_POST['first_name'].' '.$_POST['last_name']);
+    $userdata['user_url'] = encrypt($_POST['url']);
+
+    return $userdata;
 }
-add_action( 'wp_login_failed', 'login_failed' );  
- 
-function verify_username_password( $user, $username, $password ) {
-    $login_page  = home_url( '/dang-nhap/' );
-    if( $username == "" || $password == "" ) {
-        wp_redirect( $login_page . "?login=empty" );
-        exit;
+
+add_filter( 'insert_user_meta', 'filter_user_meta', 99, 2);
+
+function filter_user_meta( $meta, $user ) {
+    
+    $meta['first_name'] = encrypt($_POST['first_name']);
+    $meta['last_name'] = encrypt($_POST['last_name']);
+
+    return $meta;
+}
+
+//-------Check exits username & email
+add_filter( 'username_exists', 'check_username_exists', 99, 2);
+
+function check_username_exists( $user_id, $username ) {
+
+    if($user_id == false){
+        // $username = md5($username);
+        // $user = get_user_by( 'login', $username );
+        $user = get_user_by( 'login', encrypt_login_email($username) );
+        // var_dump($user);
+        // exit;
+        if ( $user ) {
+            $user_id = $user->ID;
+        } else {
+            $user_id = false;
+        }
     }
+    return apply_filters( 'username_exist', $user_id, $username );
+
 }
-add_filter( 'authenticate', 'verify_username_password', 1, 3);
 
+add_filter( 'email_exists', 'check_email_exists', 99, 2);
 
-function changeuser(){
-    if ( is_user_logged_in() ) {
+function check_email_exists( $user_id, $email ) {
 
-        $current_user = wp_get_current_user();
-        $current_user->display_name = decrypt($current_user->display_name);
-        $current_user->user_login = decrypt($current_user->user_name);
-        $current_user->user_email = decrypt(cutEmail($current_user->user_email));
+    if($user_id == false){
+        // $email = md5($email).'@gmail.com';
+        $user = get_user_by( 'email', encrypt_login_email($email).'@gmail.com' );
+        if ( $user ) {
+            $user_id = $user->ID;
+        } else {
+            $user_id = false;
+        }
     }
+    return apply_filters( 'email_exist', $user_id, $email );
+
 }
-add_action('init','changeuser',10 );
 
-// function getListUser(){
-//     $array = array(
-// 		'orderby' => 'id',
-// 		'order' => 'DESC'
-// 	);
-//     $listUser = get_users($array);
-//     foreach ($listUser as $key => $user){
-//         $user->display_name = decrypt($user->display_name);
-//         $user->user_login = decrypt($user->user_name);
-//         $user->user_email = decrypt($user->user_email);
-//         $user->last_name = decrypt($user->last_name);
-//         $user->first_name = decrypt($user->first_name);
-        
-//     }  
-
-// }
-//     add_action('init','getListUser');
+// function action_user_register( $user_id ) { 
+//     // make action magic happen here... 
+//     update_user_meta( $user_id, 'user_name', encrypt($_POST['userName']) );
+//     update_user_meta( $user_id, 'email', encrypt($_POST['userEmail']) );
+// }; 
+         
+// add the action 
+// add_action( 'user_register', 'action_user_register', 10, 1 );
 
 
+// remove wordpress authentication
+remove_filter('authenticate', 'wp_authenticate_username_password', 20);
 
 
+// -------------------------------------Override Login-----------------------------------------------------
+
+add_filter('authenticate', function($user, $email, $password){
+
+    //Check for empty fields
+        if(empty($email) || empty ($password)){        
+            //create new error object and add errors to it.
+            $error = new WP_Error();
+    
+            if(empty($email)){ //No email
+                $error->add('empty_username', __('<strong>ERROR</strong>: Email field is empty.'));
+            }
+            else if(!filter_var($email, FILTER_VALIDATE_EMAIL)){ //Invalid Email
+                $error->add('invalid_username', __('<strong>ERROR</strong>: Email is invalid.'));
+            }
+    
+            if(empty($password)){ //No password
+                $error->add('empty_password', __('<strong>ERROR</strong>: Password field is empty.'));
+            }
+    
+            return $error;
+        }
+    
+        //Check if user exists in WordPress database
+        $user = get_user_by( 'email', encrypt_login_email($email).'@gmail.com' );
+    
+        //bad email
+        if(!$user){
+            $error = new WP_Error();
+            $error->add('invalid', __('<strong>ERROR</strong>: Either the email or password you entered is invalid.'));
+            return $error;
+        }
+        else{ //check password
+            if(!wp_check_password($password, $user->user_pass, $user->ID)){ //bad password
+                $error = new WP_Error();
+                $error->add('invalid', __('<strong>ERROR</strong>: Either the email or password you entered is invalid.'));
+                return $error;
+            }else{
+                return $user; //passed
+            }
+        }
+    }, 20, 3);
+
+add_filter('authenticate', function($user, $username, $password){
+
+    //Check for empty fields
+    if(empty($username) || empty ($password)){        
+            //create new error object and add errors to it.
+            $error = new WP_Error();
+    
+            if(empty($username)){ //No user
+               $error->add( 'empty_username', __( '<strong>Error</strong>: The username field is empty.' ) );
+            }
+            else if(!filter_var($username, FILTER_VALIDATE_EMAIL)){ //Invalid User
+                $error->add('invalid_username', __('<strong>ERROR</strong>: UserName is invalid.'));
+            }
+    
+            if(empty($password)){ //No password
+                $error->add('empty_password', __('<strong>ERROR</strong>: Password field is empty.'));
+            }
+    
+            return $error;
+        }
+    
+        //Check if user exists in WordPress database
+        $user = get_user_by( 'login', encrypt_login_email($username) );
+    
+        //bad email
+        if(!$user){
+            $error = new WP_Error();
+            $error->add('invalid', __('<strong>ERROR</strong>: Either the UserName or password you entered is invalid.'));
+            return $error;
+        }
+        else{ //check password
+            if(!wp_check_password($password, $user->user_pass, $user->ID)){ //bad password
+                $error = new WP_Error();
+                $error->add('invalid', __('<strong>ERROR</strong>: Either the UserName or password you entered is invalid.'));
+                return $error;
+            }else{
+                return $user; //passed
+            }
+        }
+    }, 20, 3);
 
 
 

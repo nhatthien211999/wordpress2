@@ -2007,7 +2007,10 @@ function wp_insert_user( $userdata ) {
 	 * @param bool     $update Whether the user is being updated rather than created.
 	 * @param int|null $id     ID of the user to be updated, or NULL if the user is being created.
 	 */
+
+
 	$data = apply_filters( 'wp_pre_insert_user_data', $data, $update, $update ? (int) $ID : null );
+
 
 	if ( empty( $data ) || ! is_array( $data ) ) {
 		return new WP_Error( 'empty_data', __( 'Not enough data to create this user.' ) );
@@ -2020,6 +2023,7 @@ function wp_insert_user( $userdata ) {
 		$wpdb->update( $wpdb->users, $data, compact( 'ID' ) );
 		$user_id = (int) $ID;
 	} else {
+
 		$wpdb->insert( $wpdb->users, $data );
 		$user_id = (int) $wpdb->insert_id;
 	}
@@ -2066,7 +2070,8 @@ function wp_insert_user( $userdata ) {
 			update_user_meta( $user_id, $key, $userdata[ $key ] );
 		}
 	}
-
+	// var_dump($userdata);
+	// exit;
 	if ( isset( $userdata['role'] ) ) {
 		$user->set_role( $userdata['role'] );
 	} elseif ( ! $update ) {

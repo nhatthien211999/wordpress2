@@ -1,0 +1,36 @@
+2021-01-22T04:13:03+00:00 CRITICAL Uncaught Error: Object of class WP_User could not be converted to string in C:\xampp\htdocs\wordpress2\wp-includes\formatting.php:1098
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\formatting.php(4503): wp_check_invalid_utf8(Object(WP_User))
+#1 C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php(682): esc_attr(Object(WP_User))
+#2 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(287): wpse39285_field_placement_js('')
+#3 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(311): WP_Hook->apply_filters(NULL, Array)
+#4 C:\xampp\htdocs\wordpress2\wp-includes\plugin.php(484): WP_Hook->do_action(Array)
+#5 C:\xampp\htdocs\wordpress2\wp-admin\admin-header.php(147): do_action('admin_head')
+#6 C:\xampp\htdocs\wordpress2\wp-admin\user-edit.php(191): require_once('C:\\xampp\\htdocs...')
+#7 C:\xampp\htdocs\wordpress2\wp-admin\profile.php(18): require_once('C:\\xampp\\htdocs...')
+#8 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-includes\formatting.php on line 1098
+
+2021-01-22T04:48:45+00:00 CRITICAL Uncaught Error: Function name must be a string in C:\xampp\htdocs\wordpress2\wp-content\themes\test\list-user.php:12
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\template-loader.php(106): include()
+#1 C:\xampp\htdocs\wordpress2\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\wordpress2\index.php(17): require('C:\\xampp\\htdocs...')
+#3 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-content\themes\test\list-user.php on line 12
+
+2021-01-22T06:48:39+00:00 CRITICAL Cannot use [] for reading in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 732
+
+2021-01-22T06:59:02+00:00 CRITICAL Uncaught Error: Function name must be a string in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php:742
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(287): action_user_register(73)
+#1 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(311): WP_Hook->apply_filters(NULL, Array)
+#2 C:\xampp\htdocs\wordpress2\wp-includes\plugin.php(484): WP_Hook->do_action(Array)
+#3 C:\xampp\htdocs\wordpress2\wp-includes\user.php(2123): do_action('user_register', 73)
+#4 C:\xampp\htdocs\wordpress2\wp-admin\includes\user.php(229): wp_insert_user(Array)
+#5 C:\xampp\htdocs\wordpress2\wp-admin\user-new.php(189): edit_user()
+#6 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 742
+
+2021-01-22T07:42:04+00:00 CRITICAL syntax error, unexpected '?>' in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 613
+

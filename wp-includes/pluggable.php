@@ -85,26 +85,6 @@ if ( ! function_exists( 'get_userdata' ) ) :
 	}
 endif;
 
-// function _decrypt_user($message){
-// 	$encryption_key ='1f4276388ad3214c873428dbef42243f' ;
-// 	$key = hex2bin($encryption_key);
-// 	$message = base64_decode($message);
-// 	$nonceSize = openssl_cipher_iv_length('aes-256-ctr');
-// 	$nonce = mb_substr($message, 0, $nonceSize, '8bit');
-// 	$ciphertext = mb_substr($message, $nonceSize, null, '8bit');
-
-// 	$plaintext= openssl_decrypt(
-// 	  $ciphertext, 
-// 	  'aes-256-ctr', 
-// 	  $key,
-// 	  OPENSSL_RAW_DATA,
-// 	  $nonce
-// 	);
-// 	return $plaintext;
-//   }
-//   function cutEmail_user($email){
-//     return trim($email,'@gmail.com');
-//   }
 
 if ( ! function_exists( 'get_user_by' ) ) :
 	/**
@@ -129,11 +109,7 @@ if ( ! function_exists( 'get_user_by' ) ) :
 
 
 		$user->init( $userdata );
-		// $user->display_name = _decrypt_user($user->display_name);
-        // $user->user_login = _decrypt_user($user->user_name);
-        // $user->user_email = _decrypt_user(cutEmail_user($user->user_email));
-        // $user->last_name = _decrypt_user($user->last_name);
-		// $user->first_name = _decrypt_user($user->first_name);
+
 
 		return $user;
 	}

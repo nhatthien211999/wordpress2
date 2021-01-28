@@ -608,6 +608,8 @@ class WP_User {
 		} else {
 			$this->roles = false;
 		}
+		// var_dump($this->caps);
+		// exit;
 		update_user_meta( $this->ID, $this->cap_key, $this->caps );
 		$this->get_role_caps();
 		$this->update_user_level_from_caps();
