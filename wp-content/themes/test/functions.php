@@ -320,6 +320,9 @@ function encrypt($message){
   function cutEmail($email){
     return trim($email,'@gmail.com');
   }
+  function cutUrl($url){
+    return trim($url,'http://');
+  }
 
 
 
@@ -335,27 +338,17 @@ add_filter( 'manage_users_columns', function( $columns )
 } );
 
 
-add_filter( 'manage_users_custom_column', function( $output, $column_name, $user_id )
+add_filter( 'manage_users_custom_column', function( $default, $column_name, $user_id )
 {
-    $u = get_userdata( $user_id ); 
-    if($u->id == 1){
-        return $u->user_login;
-    }
-    else{
-        if( 'mycol1' === $column_name )
-        {
-           
-            if( $u instanceof \WP_User )
-            {
-                // Default output
-                $output = decrypt_login_email($u->user_login);
-                unset( $u ); 
-            }
+    if( 'mycol1' === $column_name ){
+        $u = new WP_User( $user_id ); 
+        if ($u instanceof \WP_User) {
+            $edit_link = get_edit_user_link( $user_id );
+            $default .= "<a href='$edit_link'>".decrypt_login_email($u->user_login)."</a>" ;
         }
-        return $output;       
+    
+        return ($default) ;
     }
-
-
 }, 10, 3 );  
 
 // ------------col name-------------
@@ -374,7 +367,6 @@ add_filter( 'manage_users_custom_column', function( $output, $column_name, $user
         {
             // Default output
             $output = decrypt($u->display_name);
-
             unset( $u ); 
         }
     }       
@@ -387,7 +379,7 @@ add_filter( 'manage_users_sortable_columns', function( $columns )
     return $columns;
 } );
 
-//-----col email-----------
+// //-----col email-----------
 add_filter( 'manage_users_columns', function( $columns )
 {
     return array_slice( $columns, 0, 3, true ) 
@@ -430,41 +422,6 @@ function pippin_show_user_id_column_content($value, $column_name, $user_id) {
 }
 //--------------------------------------------------------
 
-// add library js
-function library_js() {     
-    ?>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
-    <?php
-}
-
-add_action( 'admin_head', 'library_js' );
-
-//override fields edit-profile admin
-function wpse39285_field_placement_js() {
-    global $pagenow;
-    if ( $pagenow == 'profile.php' ) {
-        $user = wp_get_current_user();
-        // var_dump(cutEmail( $user->user_email ));
-        // var_dump(decrypt_login_email('FnASTcncH9x0MVDCbU0GacwGnTaW7RXvKNcIEtb+t7xkxMxpnoc8FEmtb8CkgQCj'));
-        // // var_dump(decrypt(esc_attr( $user->first_name )));
-        // exit;
-        ?>
-        <script type="text/javascript">
-            $(document).ready(function($) {
-                // $("[name='user_login']").css("background-color","red");
-                var user_login = '<?php echo decrypt_login_email(esc_attr( $user->user_login )); ?>'
-                var user_email = '<?php echo decrypt_login_email(esc_attr( $user->user_email )); ?>'
-                console.log(user_email);
-                $("[name='user_login']").attr('value', user_login); //add or update attribute
-                $("[name='first_name']").attr('value', "<?php echo decrypt(esc_attr( $user->first_name )); ?>"); 
-                $("[name='last_name']").attr('value', "<?php echo decrypt(esc_attr( $user->last_name )); ?>"); 
-                $("[name='email']").attr('value', "<?php echo decrypt_login_email(esc_attr( cutEmail( $user->user_email ))); ?>"); 
-            });
-        </script>
-        <?php
-    }
-}
-add_action( 'admin_head', 'wpse39285_field_placement_js' );
 
 
 //--------------------Updata user_name table usermeta-------------------------------
@@ -475,9 +432,19 @@ add_action( 'admin_head', 'wpse39285_field_placement_js' );
 add_filter( 'wp_pre_insert_user_data' , 'filter_user_data' , 99, 1 );
 
 function filter_user_data( $userdata ) {
-    $userdata['user_login'] = encrypt_login_email($_POST['user_login']);
+    global $pagenow;
+    if ( $pagenow != 'user-edit.php' || $pagenow != 'profile.php') {   
+        $userdata['user_login'] = encrypt_login_email($_POST['user_login']);
+    }
+
+    if(isset($_POST['display_name'])){
+        $userdata['display_name'] = encrypt($_POST['display_name']);
+    }
+    else{
+        $userdata['display_name'] = encrypt($_POST['first_name'].' '.$_POST['last_name']);
+    }
+
     $userdata['user_email'] = encrypt_login_email($_POST['email']).'@gmail.com';
-    $userdata['display_name'] = encrypt($_POST['first_name'].' '.$_POST['last_name']);
     $userdata['user_url'] = encrypt($_POST['url']);
 
     return $userdata;
@@ -493,17 +460,15 @@ function filter_user_meta( $meta, $user ) {
     return $meta;
 }
 
-//-------Check exits username & email
+// -------Check exits username & email
 add_filter( 'username_exists', 'check_username_exists', 99, 2);
 
 function check_username_exists( $user_id, $username ) {
 
     if($user_id == false){
-        // $username = md5($username);
-        // $user = get_user_by( 'login', $username );
+
         $user = get_user_by( 'login', encrypt_login_email($username) );
-        // var_dump($user);
-        // exit;
+
         if ( $user ) {
             $user_id = $user->ID;
         } else {
@@ -517,28 +482,36 @@ function check_username_exists( $user_id, $username ) {
 add_filter( 'email_exists', 'check_email_exists', 99, 2);
 
 function check_email_exists( $user_id, $email ) {
-
-    if($user_id == false){
-        // $email = md5($email).'@gmail.com';
-        $user = get_user_by( 'email', encrypt_login_email($email).'@gmail.com' );
-        if ( $user ) {
-            $user_id = $user->ID;
-        } else {
-            $user_id = false;
+    global $pagenow;
+    if ( $pagenow == 'user-edit.php' || $pagenow != 'profile.php'){
+        if($user_id == false){
+            $user = get_user_by( 'email', encrypt_login_email($email).'@gmail.com' );
+            if ( $user ) {
+                if($user->id == $_POST['user_id']){
+                    $user_id = false;
+                }
+                else{
+                    $user_id = $user->id;
+                }
+            } else {
+                $user_id = false;
+            }
         }
+        return apply_filters( 'email_exist_page_edit', $user_id, $email );
+    }else{
+        if($user_id == false){
+            $user = get_user_by( 'email', encrypt_login_email($email).'@gmail.com' );
+            if ( $user ) {
+                $user_id = $user->ID;
+            } else {
+                $user_id = false;
+            }
+        }
+        return apply_filters( 'email_exist', $user_id, $email );
     }
-    return apply_filters( 'email_exist', $user_id, $email );
 
 }
 
-// function action_user_register( $user_id ) { 
-//     // make action magic happen here... 
-//     update_user_meta( $user_id, 'user_name', encrypt($_POST['userName']) );
-//     update_user_meta( $user_id, 'email', encrypt($_POST['userEmail']) );
-// }; 
-         
-// add the action 
-// add_action( 'user_register', 'action_user_register', 10, 1 );
 
 
 // remove wordpress authentication
@@ -629,6 +602,75 @@ add_filter('authenticate', function($user, $username, $password){
         }
     }, 20, 3);
 
+//get data form edit profile
+    add_filter('wp_get_user_edit_by', 'get_user_decrypt');
+    function get_user_decrypt($user){
+
+        $user->user_login = decrypt_login_email($user->user_login);
+        $user->last_name = decrypt($user->last_name);
+        $user->first_name = decrypt($user->first_name);
+        $user->user_email = decrypt_login_email(esc_attr( cutEmail( $user->user_email )));
+        $user->user_url = decrypt(cutUrl($user->user_url));
+        $user->display_name = decrypt($user->display_name);
+        
+        return apply_filters( 'wp_get_user_edit_by_data', $user );
+    }
+
+    
+    // add_filter ('manage_users_columns', 'users_columns') ;
+    // add_filter ('manage_users_custom_column', 'users_custom_column', 10, 3) ;
+    
+    // function users_columns ($cols)
+    // {
+    //     $cols['author_page'] = 'Author page' ;
+    
+    //     return ($cols) ;
+    // }
+    
+    // function users_custom_column ($default, $column_name, $user_id)
+    // {
+    //     $u = get_userdata( $user_id ); 
+    //     if ('author_page' == $column_name) {
+    //         $edit_link = get_edit_user_link( $user_id );
+    //         $default .= "<a href='$edit_link'>".decrypt_login_email($u->user_login)."</a>" ;
+    //         }
+    
+    //     return ($default) ;
+    // }
+    add_action('init','set_data' );
+    function set_data(){
+        global $current_user;
+        wp_get_current_user() ;
+        $current_user->display_name = decrypt($current_user->display_name);
+        $current_user->user_login = decrypt_login_email($current_user->user_login);
+    }
 
 
+/* 
+// add library js
+add_action( 'admin_head', 'library_js' );
+function library_js() {     
+    ?>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
+    <?php
+}
+add_action( 'admin_head', 'wpse39285_field_placement_js' );
+function wpse39285_field_placement_js() {
+    global $pagenow;
+    if ( $pagenow == 'profile.php' ) {
+        $user = wp_get_current_user();
+        ?>
+        <script type="text/javascript">
 
+            $(document).ready(function($) {
+                var user_login = '<?php echo decrypt_login_email(esc_attr( $user->user_login )); ?>';
+                
+                $(".username").text(user_login);
+                console.log(user_login);
+            });
+        </script>
+        <?php
+    }
+    
+}
+*/

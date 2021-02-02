@@ -1,0 +1,4 @@
+2021-01-29T10:27:24+00:00 CRITICAL syntax error, unexpected end of file, expecting ')' in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 639
+
+2021-01-29T10:30:55+00:00 CRITICAL syntax error, unexpected '}' in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 635
+

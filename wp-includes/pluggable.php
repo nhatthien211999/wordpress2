@@ -104,12 +104,8 @@ if ( ! function_exists( 'get_user_by' ) ) :
 		if ( ! $userdata ) {
 			return false;
 		}
-
 		$user = new WP_User;
-
-
 		$user->init( $userdata );
-
 
 		return $user;
 	}

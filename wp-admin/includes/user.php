@@ -289,7 +289,7 @@ function get_user_to_edit( $user_id ) {
 		$user->filter = 'edit';
 	}
 
-	return $user;
+	return apply_filters( 'wp_get_user_edit_by', $user );
 }
 
 /**

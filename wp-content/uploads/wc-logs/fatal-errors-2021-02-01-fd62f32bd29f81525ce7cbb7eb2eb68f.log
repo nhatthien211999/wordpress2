@@ -1,0 +1,64 @@
+2021-02-01T10:21:51+00:00 CRITICAL syntax error, unexpected '}' in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 512
+
+2021-02-01T10:35:49+00:00 CRITICAL syntax error, unexpected 'href' (T_STRING) in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 645
+
+2021-02-01T10:36:32+00:00 CRITICAL syntax error, unexpected end of file in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 650
+
+2021-02-01T10:43:29+00:00 CRITICAL Uncaught Error: Unsupported operand types in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php:353
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(287): {closure}(NULL)
+#1 C:\xampp\htdocs\wordpress2\wp-includes\plugin.php(212): WP_Hook->apply_filters(NULL, Array)
+#2 C:\xampp\htdocs\wordpress2\wp-admin\includes\screen.php(37): apply_filters('manage_users_co...', Array)
+#3 C:\xampp\htdocs\wordpress2\wp-admin\includes\class-wp-screen.php(995): get_column_headers(Object(WP_Screen))
+#4 C:\xampp\htdocs\wordpress2\wp-admin\includes\class-wp-screen.php(956): WP_Screen->show_screen_options()
+#5 C:\xampp\htdocs\wordpress2\wp-admin\admin-header.php(270): WP_Screen->render_screen_meta()
+#6 C:\xampp\htdocs\wordpress2\wp-admin\users.php(478): require_once('C:\\xampp\\htdocs...')
+#7 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 353
+
+2021-02-01T10:46:28+00:00 CRITICAL Uncaught Error: Call to undefined function c() in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php:339
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(287): users_columns(Array)
+#1 C:\xampp\htdocs\wordpress2\wp-includes\plugin.php(212): WP_Hook->apply_filters(Array, Array)
+#2 C:\xampp\htdocs\wordpress2\wp-admin\includes\screen.php(37): apply_filters('manage_users_co...', Array)
+#3 C:\xampp\htdocs\wordpress2\wp-admin\includes\class-wp-screen.php(995): get_column_headers(Object(WP_Screen))
+#4 C:\xampp\htdocs\wordpress2\wp-admin\includes\class-wp-screen.php(956): WP_Screen->show_screen_options()
+#5 C:\xampp\htdocs\wordpress2\wp-admin\admin-header.php(270): WP_Screen->render_screen_meta()
+#6 C:\xampp\htdocs\wordpress2\wp-admin\users.php(478): require_once('C:\\xampp\\htdocs...')
+#7 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 339
+
+2021-02-01T10:46:30+00:00 CRITICAL Uncaught Error: Call to undefined function c() in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php:339
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(287): users_columns(Array)
+#1 C:\xampp\htdocs\wordpress2\wp-includes\plugin.php(212): WP_Hook->apply_filters(Array, Array)
+#2 C:\xampp\htdocs\wordpress2\wp-admin\includes\screen.php(37): apply_filters('manage_users_co...', Array)
+#3 C:\xampp\htdocs\wordpress2\wp-admin\includes\class-wp-screen.php(995): get_column_headers(Object(WP_Screen))
+#4 C:\xampp\htdocs\wordpress2\wp-admin\includes\class-wp-screen.php(956): WP_Screen->show_screen_options()
+#5 C:\xampp\htdocs\wordpress2\wp-admin\admin-header.php(270): WP_Screen->render_screen_meta()
+#6 C:\xampp\htdocs\wordpress2\wp-admin\users.php(478): require_once('C:\\xampp\\htdocs...')
+#7 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 339
+
+2021-02-01T14:29:00+00:00 CRITICAL syntax error, unexpected '<' in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 628
+
+2021-02-01T14:50:30+00:00 CRITICAL Uncaught Error: Object of class WP_User could not be converted to string in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php:611
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(287): get_user_decrypt(Object(WP_User))
+#1 C:\xampp\htdocs\wordpress2\wp-includes\plugin.php(212): WP_Hook->apply_filters(Object(WP_User), Array)
+#2 C:\xampp\htdocs\wordpress2\wp-admin\includes\user.php(292): apply_filters('wp_get_user_edi...', Object(WP_User))
+#3 C:\xampp\htdocs\wordpress2\wp-admin\user-edit.php(182): get_user_to_edit(153)
+#4 C:\xampp\htdocs\wordpress2\wp-admin\profile.php(18): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 611
+
+2021-02-01T14:50:34+00:00 CRITICAL Uncaught Error: Object of class WP_User could not be converted to string in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php:611
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(287): get_user_decrypt(Object(WP_User))
+#1 C:\xampp\htdocs\wordpress2\wp-includes\plugin.php(212): WP_Hook->apply_filters(Object(WP_User), Array)
+#2 C:\xampp\htdocs\wordpress2\wp-admin\includes\user.php(292): apply_filters('wp_get_user_edi...', Object(WP_User))
+#3 C:\xampp\htdocs\wordpress2\wp-admin\user-edit.php(182): get_user_to_edit(153)
+#4 C:\xampp\htdocs\wordpress2\wp-admin\profile.php(18): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 611
+

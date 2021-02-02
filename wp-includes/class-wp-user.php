@@ -252,7 +252,9 @@ class WP_User {
 
 		update_user_caches( $user );
 
-		return $user;
+		return apply_filters( 'get_user', $user);
+
+
 	}
 
 	/**
