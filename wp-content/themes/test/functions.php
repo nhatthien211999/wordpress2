@@ -483,7 +483,7 @@ add_filter( 'email_exists', 'check_email_exists', 99, 2);
 
 function check_email_exists( $user_id, $email ) {
     global $pagenow;
-    if ( $pagenow == 'user-edit.php' || $pagenow != 'profile.php'){
+    if ( $pagenow == 'user-edit.php' || $pagenow == 'profile.php'){
         if($user_id == false){
             $user = get_user_by( 'email', encrypt_login_email($email).'@gmail.com' );
             if ( $user ) {
@@ -617,26 +617,6 @@ add_filter('authenticate', function($user, $username, $password){
     }
 
     
-    // add_filter ('manage_users_columns', 'users_columns') ;
-    // add_filter ('manage_users_custom_column', 'users_custom_column', 10, 3) ;
-    
-    // function users_columns ($cols)
-    // {
-    //     $cols['author_page'] = 'Author page' ;
-    
-    //     return ($cols) ;
-    // }
-    
-    // function users_custom_column ($default, $column_name, $user_id)
-    // {
-    //     $u = get_userdata( $user_id ); 
-    //     if ('author_page' == $column_name) {
-    //         $edit_link = get_edit_user_link( $user_id );
-    //         $default .= "<a href='$edit_link'>".decrypt_login_email($u->user_login)."</a>" ;
-    //         }
-    
-    //     return ($default) ;
-    // }
     add_action('init','set_data' );
     function set_data(){
         global $current_user;
