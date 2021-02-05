@@ -26,8 +26,7 @@
             $email = $wpdb->escape(trim($_POST['email']));
             $first_name = $wpdb->escape(trim($_POST['first_name']));
             $last_name = $wpdb->escape(trim($_POST['last_name']));
-            $username = $wpdb->escape(trim($_POST['username']));
-            $display_name = $wpdb->escape(trim($_POST['first_name']).' '.trim($_POST['last_name']));
+            $username = $wpdb->escape(trim($_POST['user_login']));
             
             if( $email == "" || $pwd1 == "" || $pwd2 == "" || $username == "") {
                 $err = 'Vui lòng không bỏ trống những thông tin bắt buộc!';
@@ -42,12 +41,11 @@
             } else {
                 $user_id = wp_insert_user( 
                     array (
-                        'user_pass' => apply_filters('pre_user_pass',$pwd1), 
-                        'user_login' => apply_filters('pre_user_login', encrypt_login_email($username)), 
-                        'first_name' => apply_filters('pre_user_first_name', encrypt($first_name)),
-                        'last_name' => apply_filters('pre_user_last_name', encrypt($last_name)),
-                        'user_email' => apply_filters('	pre_user_email', encrypt_login_email($email).'@gmail.com'),
-                        'display_name' => apply_filters('pre_user_display_name', encrypt($display_name)),  
+                        'user_pass' => $pwd1, 
+                        'user_login' => apply_filters('pre_user_login',$username), 
+                        'first_name' => $first_name,
+                        'last_name' => $last_name,
+                        'user_email' => $email,
                         'role' => 'subscriber' ) 
                     );
 
@@ -79,9 +77,9 @@
     </div>
     <form class="form-horizontal" method="post" role="form">
 <div class="form-group">
-    <label class="control-label  col-sm-3" for="username">Tên đăng nhập:</label>
+    <label class="control-label  col-sm-3" for="user_login">Tên đăng nhập:</label>
     <div class="col-sm-9">
-    <input type="text" class="form-control" name="username" id="username" placeholder="Tên Đăng nhập">
+    <input type="text" class="form-control" name="user_login" id="user_login" placeholder="Tên Đăng nhập">
     </div>
 </div>
 <div class="form-group">

@@ -287,7 +287,7 @@ function encrypt($message){
     return $plaintext;
   }
 
-  function encrypt_login_email($message){
+  function encrypt_login($message){
     
     $encryption_key ='1f4276388ad3214c873428dbef42243f' ;
     $key = hex2bin($encryption_key);
@@ -302,7 +302,9 @@ function encrypt($message){
     return base64_encode($nonce.$ciphertext);
   }
 
-  function decrypt_login_email($message){
+
+
+  function decrypt_login($message){
     $encryption_key ='1f4276388ad3214c873428dbef42243f' ;
     $key = hex2bin($encryption_key);
     $message = base64_decode($message);
@@ -315,6 +317,40 @@ function encrypt($message){
       null
     );
     return $plaintext;
+  }
+
+  function encrypt_email($message){
+    $cutEmail = explode('@', $message);
+    $encryption_key ='1f4276388ad3214c873428dbef42243f' ;
+    $key = hex2bin($encryption_key);
+    $nonce = '';
+    $ciphertext = openssl_encrypt(
+      $cutEmail[0], 
+      'aes-256-cbc', 
+      $key,
+      OPENSSL_RAW_DATA, //trả dữ liệu về kiểu base64
+      null
+    );
+    return base64_encode($nonce.$ciphertext).'@'.$cutEmail[1];
+  }
+
+  function decrypt_email($message){
+    $cutEmail = explode('@', $message);
+
+    $encryption_key ='1f4276388ad3214c873428dbef42243f' ;
+    $key = hex2bin($encryption_key);
+    $cutEmail[0] = base64_decode($cutEmail[0]);
+
+    $ciphertext = mb_substr($cutEmail[0], null, null, '8bit');
+    $plaintext= openssl_decrypt(
+      $ciphertext, 
+      'aes-256-cbc', 
+      $key,
+      OPENSSL_RAW_DATA,
+      null
+    );
+
+    return $plaintext.'@'.$cutEmail[1];
   }
 
   function cutEmail($email){
@@ -338,16 +374,16 @@ add_filter( 'manage_users_columns', function( $columns )
 } );
 
 
-add_filter( 'manage_users_custom_column', function( $default, $column_name, $user_id )
+add_filter( 'manage_users_custom_column', function( $output, $column_name, $user_id )
 {
     if( 'mycol1' === $column_name ){
         $u = new WP_User( $user_id ); 
         if ($u instanceof \WP_User) {
             $edit_link = get_edit_user_link( $user_id );
-            $default .= "<a href='$edit_link'>".decrypt_login_email($u->user_login)."</a>" ;
+            $output .= "<a href='$edit_link'>".decrypt_login($u->user_login)."</a>" ;
         }
     
-        return ($default) ;
+        return ($output) ;
     }
 }, 10, 3 );  
 
@@ -394,7 +430,7 @@ add_filter( 'manage_users_custom_column', function( $output, $column_name, $user
         if( $u instanceof \WP_User )
         {
             // Default output
-            $output = decrypt_login_email(cutEmail($u->user_email));
+            $output = decrypt_email($u->user_email);
 
             unset( $u ); 
         }
@@ -430,28 +466,30 @@ function pippin_show_user_id_column_content($value, $column_name, $user_id) {
 
 //create user
 add_filter( 'wp_pre_insert_user_data' , 'filter_user_data' , 99, 1 );
-
+//insert user
 function filter_user_data( $userdata ) {
     global $pagenow;
-    if ( $pagenow != 'user-edit.php' || $pagenow != 'profile.php') {   
-        $userdata['user_login'] = encrypt_login_email($_POST['user_login']);
-    }
 
+    if ( $pagenow !== 'user-edit.php' && $pagenow !== 'profile.php') { 
+        $userdata['user_login'] = encrypt_login($_POST['user_login']);
+    }
     if(isset($_POST['display_name'])){
         $userdata['display_name'] = encrypt($_POST['display_name']);
+
     }
     else{
         $userdata['display_name'] = encrypt($_POST['first_name'].' '.$_POST['last_name']);
     }
-
-    $userdata['user_email'] = encrypt_login_email($_POST['email']).'@gmail.com';
+    $userdata['user_email'] = encrypt_email($_POST['email']);
     $userdata['user_url'] = encrypt($_POST['url']);
+
 
     return $userdata;
 }
 
 add_filter( 'insert_user_meta', 'filter_user_meta', 99, 2);
 
+//insert user meta
 function filter_user_meta( $meta, $user ) {
     
     $meta['first_name'] = encrypt($_POST['first_name']);
@@ -463,11 +501,12 @@ function filter_user_meta( $meta, $user ) {
 // -------Check exits username & email
 add_filter( 'username_exists', 'check_username_exists', 99, 2);
 
+//check user name
 function check_username_exists( $user_id, $username ) {
 
     if($user_id == false){
 
-        $user = get_user_by( 'login', encrypt_login_email($username) );
+        $user = get_user_by( 'login', encrypt_login($username) );
 
         if ( $user ) {
             $user_id = $user->ID;
@@ -481,13 +520,16 @@ function check_username_exists( $user_id, $username ) {
 
 add_filter( 'email_exists', 'check_email_exists', 99, 2);
 
+//check user email
 function check_email_exists( $user_id, $email ) {
     global $pagenow;
+
     if ( $pagenow == 'user-edit.php' || $pagenow == 'profile.php'){
+        // check email changes in edit page and edit profile
         if($user_id == false){
-            $user = get_user_by( 'email', encrypt_login_email($email).'@gmail.com' );
+            $user = get_user_by( 'email', encrypt_email($email) );
             if ( $user ) {
-                if($user->id == $_POST['user_id']){
+                if($user->id == $_POST['user_id']){ //email of user ????? 
                     $user_id = false;
                 }
                 else{
@@ -500,7 +542,7 @@ function check_email_exists( $user_id, $email ) {
         return apply_filters( 'email_exist_page_edit', $user_id, $email );
     }else{
         if($user_id == false){
-            $user = get_user_by( 'email', encrypt_login_email($email).'@gmail.com' );
+            $user = get_user_by( 'email', encrypt_email($email));
             if ( $user ) {
                 $user_id = $user->ID;
             } else {
@@ -520,6 +562,7 @@ remove_filter('authenticate', 'wp_authenticate_username_password', 20);
 
 // -------------------------------------Override Login-----------------------------------------------------
 
+//check login with email
 add_filter('authenticate', function($user, $email, $password){
 
     //Check for empty fields
@@ -541,8 +584,8 @@ add_filter('authenticate', function($user, $email, $password){
             return $error;
         }
     
-        //Check if user exists in WordPress database
-        $user = get_user_by( 'email', encrypt_login_email($email).'@gmail.com' );
+        //Check if email in WordPress database
+        $user = get_user_by( 'email', encrypt_email($email) );
     
         //bad email
         if(!$user){
@@ -561,6 +604,7 @@ add_filter('authenticate', function($user, $email, $password){
         }
     }, 20, 3);
 
+//check login with username
 add_filter('authenticate', function($user, $username, $password){
 
     //Check for empty fields
@@ -583,7 +627,7 @@ add_filter('authenticate', function($user, $username, $password){
         }
     
         //Check if user exists in WordPress database
-        $user = get_user_by( 'login', encrypt_login_email($username) );
+        $user = get_user_by( 'login', encrypt_login($username) );
     
         //bad email
         if(!$user){
@@ -606,24 +650,28 @@ add_filter('authenticate', function($user, $username, $password){
     add_filter('wp_get_user_edit_by', 'get_user_decrypt');
     function get_user_decrypt($user){
 
-        $user->user_login = decrypt_login_email($user->user_login);
+        $user->user_login = decrypt_login($user->user_login);
         $user->last_name = decrypt($user->last_name);
         $user->first_name = decrypt($user->first_name);
-        $user->user_email = decrypt_login_email(esc_attr( cutEmail( $user->user_email )));
+        $user->user_email = decrypt_email(esc_attr( $user->user_email ));
         $user->user_url = decrypt(cutUrl($user->user_url));
         $user->display_name = decrypt($user->display_name);
         
         return apply_filters( 'wp_get_user_edit_by_data', $user );
     }
 
-    
+   // set user login 
+   if( !function_exists('set_data') ){
     add_action('init','set_data' );
     function set_data(){
         global $current_user;
         wp_get_current_user() ;
         $current_user->display_name = decrypt($current_user->display_name);
-        $current_user->user_login = decrypt_login_email($current_user->user_login);
+        $current_user->user_login = decrypt_login($current_user->user_login);
+
     }
+   }
+
 
 
 /* 
@@ -643,7 +691,7 @@ function wpse39285_field_placement_js() {
         <script type="text/javascript">
 
             $(document).ready(function($) {
-                var user_login = '<?php echo decrypt_login_email(esc_attr( $user->user_login )); ?>';
+                var user_login = '<?php echo decrypt_login(esc_attr( $user->user_login )); ?>';
                 
                 $(".username").text(user_login);
                 console.log(user_login);
