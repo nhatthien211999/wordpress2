@@ -557,94 +557,67 @@ function check_email_exists( $user_id, $email ) {
 
 
 // remove wordpress authentication
-remove_filter('authenticate', 'wp_authenticate_username_password', 20);
+// remove_filter('authenticate', 'wp_authenticate_username_password', 20);
 
 
 // -------------------------------------Override Login-----------------------------------------------------
 
 //check login with email
-add_filter('authenticate', function($user, $email, $password){
+remove_filter('authenticate', 'wp_authenticate_email_password');
+remove_filter('authenticate', 'wp_authenticate_username_password');
+add_filter('authenticate', function($user, $user_login, $password){
 
     //Check for empty fields
-        if(empty($email) || empty ($password)){        
+        if(empty($user_login) || empty ($password)){        
             //create new error object and add errors to it.
             $error = new WP_Error();
     
-            if(empty($email)){ //No email
-                $error->add('empty_username', __('<strong>ERROR</strong>: Email field is empty.'));
+            if(empty($user_login)){ //No email or username
+                $error->add('empty_username', __('<strong>ERROR</strong>: Email or UserName field is empty.'));
             }
-            else if(!filter_var($email, FILTER_VALIDATE_EMAIL)){ //Invalid Email
-                $error->add('invalid_username', __('<strong>ERROR</strong>: Email is invalid.'));
+            else if(!filter_var($user_login, FILTER_VALIDATE_EMAIL)){ //Invalid Email or username
+                $error->add('invalid_username', __('<strong>ERROR</strong>: Email or UserName is invalid.'));
             }
-    
-            if(empty($password)){ //No password
+            if(empty($user_login)){ //No password
                 $error->add('empty_password', __('<strong>ERROR</strong>: Password field is empty.'));
             }
     
             return $error;
         }
     
-        //Check if email in WordPress database
-        $user = get_user_by( 'email', encrypt_email($email) );
-    
-        //bad email
-        if(!$user){
-            $error = new WP_Error();
-            $error->add('invalid', __('<strong>ERROR</strong>: Either the email or password you entered is invalid.'));
-            return $error;
-        }
-        else{ //check password
-            if(!wp_check_password($password, $user->user_pass, $user->ID)){ //bad password
-                $error = new WP_Error();
-                $error->add('invalid', __('<strong>ERROR</strong>: Either the email or password you entered is invalid.'));
-                return $error;
-            }else{
-                return $user; //passed
-            }
-        }
-    }, 20, 3);
+        //Check if email or username in WordPress database
+        $user_email = get_user_by( 'email', encrypt_email($user_login) );
+        $user = get_user_by( 'login', encrypt_login($user_login) );
 
-//check login with username
-add_filter('authenticate', function($user, $username, $password){
+        if($user || $user_email){
 
-    //Check for empty fields
-    if(empty($username) || empty ($password)){        
-            //create new error object and add errors to it.
+            if($user_email){
+                if(!wp_check_password($password, $user_email->user_pass, $user_email->ID)){ //bad password
+                    $error = new WP_Error();
+                    $error->add('invalid', __('<strong>ERROR</strong>: Either the email or password you entered is invalid.'));
+                    return $error;
+                }else{
+                    return $user_email; //passed
+                }
+            }
+            else if($user){
+                if(!wp_check_password($password, $user->user_pass, $user->ID)){ //bad password
+                    $error = new WP_Error();
+                    $error->add('invalid', __('<strong>ERROR</strong>: Either the UserName or password you entered is invalid.'));
+                    return $error;
+                }else{
+                    return $user; //passed
+                }
+            }
+        }
+        else{ 
             $error = new WP_Error();
-    
-            if(empty($username)){ //No user
-               $error->add( 'empty_username', __( '<strong>Error</strong>: The username field is empty.' ) );
-            }
-            else if(!filter_var($username, FILTER_VALIDATE_EMAIL)){ //Invalid User
-                $error->add('invalid_username', __('<strong>ERROR</strong>: UserName is invalid.'));
-            }
-    
-            if(empty($password)){ //No password
-                $error->add('empty_password', __('<strong>ERROR</strong>: Password field is empty.'));
-            }
-    
+            $error->add('invalid', __('<strong>ERROR</strong>: Either the email, username or password you entered is invalid.'));
             return $error;
         }
-    
-        //Check if user exists in WordPress database
-        $user = get_user_by( 'login', encrypt_login($username) );
-    
-        //bad email
-        if(!$user){
-            $error = new WP_Error();
-            $error->add('invalid', __('<strong>ERROR</strong>: Either the UserName or password you entered is invalid.'));
-            return $error;
-        }
-        else{ //check password
-            if(!wp_check_password($password, $user->user_pass, $user->ID)){ //bad password
-                $error = new WP_Error();
-                $error->add('invalid', __('<strong>ERROR</strong>: Either the UserName or password you entered is invalid.'));
-                return $error;
-            }else{
-                return $user; //passed
-            }
-        }
-    }, 20, 3);
+
+    }, 20, 4);
+
 
 //get data form edit profile
     add_filter('wp_get_user_edit_by', 'get_user_decrypt');

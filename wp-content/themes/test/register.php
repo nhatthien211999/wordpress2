@@ -32,9 +32,9 @@
                 $err = 'Vui lòng không bỏ trống những thông tin bắt buộc!';
             } else if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $err = 'Địa chỉ Email không hợp lệ!.';
-            } else if(get_user_by( 'email', encrypt_login_email($email) ) ) { //???? 
+            } else if(get_user_by( 'email', encrypt_email($email) ) ) { //???? 
                 $err = 'Địa chỉ Email đã tồn tại!.';
-            } else if(get_user_by( 'login', encrypt_login_email($username) )){
+            } else if(get_user_by( 'login', encrypt_login($username) )){
                 $err = 'User name đã tồn tại!.';
             } else if($pwd1 <> $pwd2 ){
                 $err = '2 Password không giống nhau!.';

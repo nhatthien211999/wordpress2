@@ -1,0 +1,34 @@
+2021-02-18T07:54:06+00:00 CRITICAL Uncaught Error: Call to undefined function encrypt_login_email() in C:\xampp\htdocs\wordpress2\wp-content\themes\test\register.php:35
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\template-loader.php(106): include()
+#1 C:\xampp\htdocs\wordpress2\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\wordpress2\index.php(17): require('C:\\xampp\\htdocs...')
+#3 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-content\themes\test\register.php on line 35
+
+2021-02-18T07:54:50+00:00 CRITICAL Uncaught Error: Call to undefined function encrypt_login_email() in C:\xampp\htdocs\wordpress2\wp-content\themes\test\register.php:35
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\template-loader.php(106): include()
+#1 C:\xampp\htdocs\wordpress2\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\wordpress2\index.php(17): require('C:\\xampp\\htdocs...')
+#3 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-content\themes\test\register.php on line 35
+
+2021-02-18T07:56:32+00:00 CRITICAL Uncaught Error: Call to undefined function encrypt_login_email() in C:\xampp\htdocs\wordpress2\wp-content\themes\test\register.php:35
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\template-loader.php(106): include()
+#1 C:\xampp\htdocs\wordpress2\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\wordpress2\index.php(17): require('C:\\xampp\\htdocs...')
+#3 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-content\themes\test\register.php on line 35
+
+2021-02-18T08:44:29+00:00 CRITICAL Uncaught ArgumentCountError: Too few arguments to function {closure}(), 3 passed in C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php on line 287 and exactly 4 expected in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php:569
+Stack trace:
+#0 C:\xampp\htdocs\wordpress2\wp-includes\class-wp-hook.php(287): {closure}(Object(WP_Error), '', '')
+#1 C:\xampp\htdocs\wordpress2\wp-includes\plugin.php(212): WP_Hook->apply_filters(Object(WP_Error), Array)
+#2 C:\xampp\htdocs\wordpress2\wp-includes\pluggable.php(550): apply_filters('authenticate', NULL, '', '')
+#3 C:\xampp\htdocs\wordpress2\wp-includes\user.php(95): wp_authenticate('', '')
+#4 C:\xampp\htdocs\wordpress2\wp-login.php(1257): wp_signon(Array, false)
+#5 {main}
+  thrown in C:\xampp\htdocs\wordpress2\wp-content\themes\test\functions.php on line 569
+
