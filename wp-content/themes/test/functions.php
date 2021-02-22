@@ -578,7 +578,7 @@ add_filter('authenticate', function($user, $user_login, $password){
             else if(!filter_var($user_login, FILTER_VALIDATE_EMAIL)){ //Invalid Email or username
                 $error->add('invalid_username', __('<strong>ERROR</strong>: Email or UserName is invalid.'));
             }
-            if(empty($user_login)){ //No password
+            if(empty($password)){ //No password
                 $error->add('empty_password', __('<strong>ERROR</strong>: Password field is empty.'));
             }
     
@@ -644,34 +644,3 @@ add_filter('authenticate', function($user, $user_login, $password){
 
     }
    }
-
-
-
-/* 
-// add library js
-add_action( 'admin_head', 'library_js' );
-function library_js() {     
-    ?>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
-    <?php
-}
-add_action( 'admin_head', 'wpse39285_field_placement_js' );
-function wpse39285_field_placement_js() {
-    global $pagenow;
-    if ( $pagenow == 'profile.php' ) {
-        $user = wp_get_current_user();
-        ?>
-        <script type="text/javascript">
-
-            $(document).ready(function($) {
-                var user_login = '<?php echo decrypt_login(esc_attr( $user->user_login )); ?>';
-                
-                $(".username").text(user_login);
-                console.log(user_login);
-            });
-        </script>
-        <?php
-    }
-    
-}
-*/
